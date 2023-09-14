@@ -1,11 +1,12 @@
 "use client";
 import { useAuthContext } from "@/app/context/auth/AuthProvider";
-import Typography from "@mui/material/Typography";
+
 export default function Profile(){
-    const {accountUser} = useAuthContext();
+    const {user} = useAuthContext();
+
     const showUserName = () => {
-      if (accountUser !== null) {
-        return <h2>{accountUser.userName}</h2>;
+      if (user !== null) {
+        return <h2>{user}</h2>;
       } else {
         return null;
       }

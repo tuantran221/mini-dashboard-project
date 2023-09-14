@@ -10,11 +10,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useAuthContext } from "../context/auth/AuthProvider";
 export default function Page() {
+  const { login } = useAuthContext(); //useContext auth
 
-  const { accountUser } = useAuthContext();  //useContext auth
-  const router = useRouter();  
-
-// ----------- store username and password from user enter to input field --------------------
+  // ----------- store username and password from user enter to input field --------------------
   const usernameRef = useRef("");
   const passwordRef = useRef("");
 
@@ -22,7 +20,6 @@ export default function Page() {
     username: "",
     password: "",
   });
-
 
   const validateForm = () => {
     let isValid = true;
@@ -49,7 +46,7 @@ export default function Page() {
     return isValid;
   };
 
-// ---------------- handle form login-----------------
+  // ---------------- handle form login-----------------
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "username") {
@@ -62,18 +59,7 @@ export default function Page() {
     e.preventDefault();
 
     if (validateForm()) {
-      if (
-        usernameRef.current === accountUser.userName &&
-        passwordRef.current === accountUser.passWord
-      ) {
-        router.push("/");
-        const key = "token";
-        const value = {
-          userName: usernameRef.current,
-          passWord: passwordRef.current,
-        };
-        localStorage.setItem(key, JSON.stringify(value));
-      }
+      login(usernameRef.current, passwordRef.current);
     }
   };
 

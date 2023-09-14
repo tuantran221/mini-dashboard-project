@@ -10,7 +10,7 @@ import QuizIcon from "@mui/icons-material/Quiz";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
-import { useRouter } from "next/navigation";
+import { useAuthContext } from "../context/auth/AuthProvider";
 
 const routes = [
   { path: "/", text: "Home", icon: <HomeIcon /> },
@@ -19,12 +19,7 @@ const routes = [
 ];
 
 export function RoutesPage() {
-  const router = useRouter();
-  // --------- logOut function -------------
-  const logOut = () => {
-    localStorage.clear();
-    router.push("/login");
-  };
+  const { logOut } = useAuthContext();
 
   return (
     <Box>
