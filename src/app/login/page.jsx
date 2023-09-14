@@ -10,13 +10,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useAuthContext } from "../context/auth/AuthProvider";
 export default function Page() {
-  const {accountUser} = useAuthContext();
-  // const accountUser = {
-  //   userName: "trieutuan22012001@gmail.com",
-  //   passWord: "123456",
-  // };
-  const router = useRouter();
 
+  const { accountUser } = useAuthContext();  //useContext auth
+  const router = useRouter();  
+
+// ----------- store username and password from user enter to input field --------------------
   const usernameRef = useRef("");
   const passwordRef = useRef("");
 
@@ -25,14 +23,6 @@ export default function Page() {
     password: "",
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "username") {
-      usernameRef.current = value;
-    } else if (name === "password") {
-      passwordRef.current = value;
-    }
-  };
 
   const validateForm = () => {
     let isValid = true;
@@ -59,6 +49,15 @@ export default function Page() {
     return isValid;
   };
 
+// ---------------- handle form login-----------------
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "username") {
+      usernameRef.current = value;
+    } else if (name === "password") {
+      passwordRef.current = value;
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -77,6 +76,9 @@ export default function Page() {
       }
     }
   };
+
+  // ------------------------- View ------------------------
+
   return (
     <Container component="main" maxWidth="xs">
       <Box

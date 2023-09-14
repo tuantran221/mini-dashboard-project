@@ -11,5 +11,5 @@ export default function Home() {
     }
   };
 
-  return <div style={{ paddingTop: "64px" }}>{showUserName()}</div>;
+  return <div >{showUserName()}</div>;
 }

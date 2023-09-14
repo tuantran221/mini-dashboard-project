@@ -9,28 +9,28 @@ import Typography from "@mui/material/Typography";
 import { quiz } from "@/app/questions_data/MultipleChoiceQuestion";
 
 export default function QuizGame() {
+  // ---------------store all states ---------------
   const [startQuiz, setStartQuiz] = useState(false);
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [checkCorrect, setCheckCorrect] = useState();
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
-  const [seconds, setSeconds] = useState(5); 
+  const [seconds, setSeconds] = useState(30);
 
+  // ------------ handle login countdown time -----------------
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (seconds > 0) {
         setSeconds(seconds - 1);
       } else {
         clearInterval(intervalId);
-        
       }
     }, 1000);
 
     return () => {
-      clearInterval(intervalId); 
+      clearInterval(intervalId);
     };
-    
   }, [seconds]);
-
+  // --------------- notified right or wrong answer View -----------------
   const displayResultAnwser = () => {
     if (checkCorrect === true) {
       return (
@@ -44,32 +44,32 @@ export default function QuizGame() {
           wrong answer
         </Typography>
       );
-    } else if (seconds === 0){
+    } else if (seconds === 0) {
       return (
-        <Typography variant="h6" sx={{ color: "red" }}>Time up</Typography>
-      )
+        <Typography variant="h6" sx={{ color: "red" }}>
+          Time up
+        </Typography>
+      );
     }
   };
-  // console.log(selectedAnswerIndex);
-  // --------- store data -----------
+
+  // --------- store data questions -----------
   const { questions } = quiz;
   const { question, choices, correctAnswer, numberQuestion } =
     questions[activeQuestion];
-  // console.log(correctAnswer)
 
   // ---------- handle function ------
   const onClickNext = () => {
     setCheckCorrect(null);
     setSelectedAnswerIndex(null);
     setActiveQuestion((prev) => prev + 1);
-    setSeconds(5)
+    setSeconds(30);
     if (activeQuestion === questions.length - 1) {
       setStartQuiz(false);
       setActiveQuestion(0);
     }
   };
   const onCheckError = (answer, index) => {
-    // console.log(answer)
     setSelectedAnswerIndex(index);
     if (answer === correctAnswer) {
       setCheckCorrect(true);
@@ -82,8 +82,11 @@ export default function QuizGame() {
     setStartQuiz(!startQuiz);
     questions.sort((a, b) => 0.5 - Math.random());
   };
+
+  // ------------------------- View ------------------------
+
   return (
-    <div style={{ paddingTop: "70px", paddingLeft: "20px" }}>
+    <div>
       {startQuiz === false ? (
         <div>
           <h2>Quiz Game</h2>
