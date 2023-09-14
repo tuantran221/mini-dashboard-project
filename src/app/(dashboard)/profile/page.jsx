@@ -1,17 +1,12 @@
 "use client";
 import { useAuthContext } from "@/app/context/auth/AuthProvider";
 
-export default function Profile(){
-    const {user} = useAuthContext();
+export default function Profile() {
+  const { user } = useAuthContext();
 
-    const showUserName = () => {
-      if (user !== null) {
-        return <h2>{user}</h2>;
-      } else {
-        return null;
-      }
-    };
-    return (
-        <div>{showUserName()}</div>
-    )
+  const showUserName = () => {
+    const userInf = JSON.parse(localStorage.getItem("token"));
+    return <h2>{userInf.userName}</h2>;
+  };
+  return <div>{showUserName()}</div>;
 }

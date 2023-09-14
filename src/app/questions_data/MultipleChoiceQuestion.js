@@ -1,5 +1,4 @@
 export const quiz = {
-  
   questions: [
     {
       numberQuestion: 1,

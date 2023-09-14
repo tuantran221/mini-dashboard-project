@@ -8,9 +8,16 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import { useAuthContext } from "../context/auth/AuthProvider";
+
 export default function Page() {
-  const { login } = useAuthContext(); //useContext auth
+  const { login, openSnack, handleCloseSnackBar } = useAuthContext(); 
+  
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   // ----------- store username and password from user enter to input field --------------------
   const usernameRef = useRef("");
@@ -119,6 +126,19 @@ export default function Page() {
           </Button>
         </Box>
       </Box>
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert
+          onClose={handleCloseSnackBar}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Email or Password Incorrect
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

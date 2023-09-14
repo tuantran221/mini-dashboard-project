@@ -47,10 +47,10 @@ export function Header({ open, handleDrawerOpen }) {
           <MenuIcon />
         </IconButton>
         <IconButton sx={{ ml: 1 }} color="inherit" onClick={toggleTheme}>
-         {isDarkMode ? <Brightness4Icon/>: <Brightness7Icon/>}
+          {isDarkMode ? <Brightness4Icon /> : <Brightness7Icon />}
         </IconButton>
         <Typography variant="h6" noWrap component="div">
-          {isDarkMode ? 'Dark': 'Light'} Mode
+          {isDarkMode ? "Dark" : "Light"} Mode
         </Typography>
       </Toolbar>
     </AppBar>

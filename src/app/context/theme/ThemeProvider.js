@@ -1,7 +1,7 @@
-'use client'
-import { createContext, useContext, useState } from 'react';
+"use client";
+import { createContext, useContext, useState } from "react";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const ThemeContext = createContext();
 
@@ -18,16 +18,13 @@ export function ThemeProvider({ children }) {
 
   const theme = createTheme({
     palette: {
-      mode: isDarkMode ? 'dark' : 'light',
+      mode: isDarkMode ? "dark" : "light",
     },
   });
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
-      <MuiThemeProvider theme={theme}>
-      {children}
-      </MuiThemeProvider>
-     
+      <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
     </ThemeContext.Provider>
   );
 }

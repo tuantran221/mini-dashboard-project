@@ -36,7 +36,16 @@ export default function DashboardLayout({ children }) {
         <CssBaseline />
         <Header open={open} handleDrawerOpen={handleDrawerOpen} />
         <SideBar open={open} handleDrawerClose={handleDrawerClose} />
-        <main style={{ paddingTop: "64px",paddingLeft: "20px", height: "100vh", width: "100%" }}>{children}</main>
+        <main
+          style={{
+            paddingTop: "80px",
+            paddingLeft: "20px",
+            height: "100vh",
+            width: "100%",
+          }}
+        >
+          {children}
+        </main>
       </Box>
     </ThemeProvider>
   );

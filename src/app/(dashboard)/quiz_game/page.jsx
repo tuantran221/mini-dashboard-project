@@ -4,7 +4,6 @@ import Button from "@mui/material/Button";
 import ListItem from "@mui/material/ListItem";
 import List from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemButton from "@mui/material/ListItemButton";
 import Typography from "@mui/material/Typography";
 import { quiz } from "@/app/questions_data/MultipleChoiceQuestion";
 
@@ -14,13 +13,16 @@ export default function QuizGame() {
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [checkCorrect, setCheckCorrect] = useState();
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
-  const [seconds, setSeconds] = useState(30);
+  const [countdown, setCountDown] = useState(20);
+  const [selectedAnswer, setSelectedAnswer] = useState(false);
 
   // ------------ handle login countdown time -----------------
   useEffect(() => {
     const intervalId = setInterval(() => {
-      if (seconds > 0) {
-        setSeconds(seconds - 1);
+      if (countdown > 0 && selectedAnswer === false) {
+        setCountDown((prev) => prev - 1);
+      } else if (selectedAnswer == true) {
+        clearInterval(intervalId);
       } else {
         clearInterval(intervalId);
       }
@@ -29,13 +31,13 @@ export default function QuizGame() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [seconds]);
+  });
   // --------------- notified right or wrong answer View -----------------
   const displayResultAnwser = () => {
     if (checkCorrect === true) {
       return (
         <Typography variant="h6" sx={{ color: "green" }}>
-          correct answer
+          Good job! correct answer
         </Typography>
       );
     } else if (checkCorrect === false) {
@@ -44,7 +46,7 @@ export default function QuizGame() {
           wrong answer
         </Typography>
       );
-    } else if (seconds === 0) {
+    } else if (countdown === 0) {
       return (
         <Typography variant="h6" sx={{ color: "red" }}>
           Time up
@@ -62,14 +64,18 @@ export default function QuizGame() {
   const onClickNext = () => {
     setCheckCorrect(null);
     setSelectedAnswerIndex(null);
+    setSelectedAnswer(false);
     setActiveQuestion((prev) => prev + 1);
-    setSeconds(30);
+    setCountDown(20);
+
     if (activeQuestion === questions.length - 1) {
       setStartQuiz(false);
       setActiveQuestion(0);
     }
   };
+
   const onCheckError = (answer, index) => {
+    setSelectedAnswer(true);
     setSelectedAnswerIndex(index);
     if (answer === correctAnswer) {
       setCheckCorrect(true);
@@ -77,7 +83,7 @@ export default function QuizGame() {
       setCheckCorrect(false);
     }
   };
-
+  // -----------shuffle questions function ------------
   const suffleQuestion = () => {
     setStartQuiz(!startQuiz);
     questions.sort((a, b) => 0.5 - Math.random());
@@ -87,7 +93,7 @@ export default function QuizGame() {
 
   return (
     <div>
-      {startQuiz === false ? (
+      {!startQuiz ? (
         <div>
           <h2>Quiz Game</h2>
           <Button variant="contained" onClick={suffleQuestion}>
@@ -102,12 +108,12 @@ export default function QuizGame() {
           </Typography>
           <List>
             {choices.map((answer, index) => (
-              <ListItem
-                onClick={() => onCheckError(answer, index)}
-                key={answer}
-              >
-                <ListItemButton
+              <ListItem key={answer}>
+                <Button
+                  
+                  onClick={() => onCheckError(answer, index)}
                   style={{
+                    textTransform: "none",
                     border:
                       selectedAnswerIndex === index
                         ? checkCorrect === true
@@ -119,27 +125,30 @@ export default function QuizGame() {
                     "&:hover": {
                       border: "1px solid black",
                     },
+                    width: "500px",
                   }}
+                  disabled={countdown === 0 || selectedAnswer === true}
                 >
-                  <ListItemText> {answer}</ListItemText>
-                </ListItemButton>
+                  <ListItemText
+                    sx={{ display: "flex", textAlign: "start", color: "inherit"}}
+                  >
+                    {answer}
+                  </ListItemText>
+                </Button>
               </ListItem>
             ))}
           </List>
-          <Typography>{seconds}</Typography>
+          <Typography>Time remaining: {countdown}</Typography>
           {displayResultAnwser()}
-
-          <div>
-            <Button
-              variant="contained"
-              onClick={onClickNext}
-              disabled={selectedAnswerIndex === null || seconds === 0}
-            >
-              {activeQuestion === questions.length - 1
-                ? "restart question"
-                : "Next Question"}
-            </Button>
-          </div>
+          {selectedAnswer === true || countdown === 0 ? (
+            <div>
+              <Button variant="contained" onClick={onClickNext}>
+                {activeQuestion === questions.length - 1
+                  ? "restart question"
+                  : "Next Question"}
+              </Button>
+            </div>
+          ) : null}
         </div>
       )}
     </div>

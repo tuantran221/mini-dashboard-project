@@ -34,7 +34,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -69,7 +68,7 @@ export function SideBar({ open, handleDrawerClose }) {
         </IconButton>
       </DrawerHeader>
       <Divider />
-      <RoutesPage/>
+      <RoutesPage />
     </Drawer>
   );
 }
