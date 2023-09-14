@@ -4,6 +4,9 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { useThemeContext } from "../context/theme/ThemeProvider";
 
 const drawerWidth = 240;
 
@@ -26,7 +29,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export function Header({ open, handleDrawerOpen }) {
- 
+  const { isDarkMode, toggleTheme } = useThemeContext();
 
   return (
     <AppBar position="fixed" open={open}>
@@ -43,8 +46,11 @@ export function Header({ open, handleDrawerOpen }) {
         >
           <MenuIcon />
         </IconButton>
+        <IconButton sx={{ ml: 1 }} color="inherit" onClick={toggleTheme}>
+         {isDarkMode ? <Brightness4Icon/>: <Brightness7Icon/>}
+        </IconButton>
         <Typography variant="h6" noWrap component="div">
-          Dark/Light Theme Mode
+          {isDarkMode ? 'Dark': 'Light'} Mode
         </Typography>
       </Toolbar>
     </AppBar>

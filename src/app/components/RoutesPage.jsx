@@ -10,14 +10,23 @@ import QuizIcon from "@mui/icons-material/Quiz";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
-
+import { useRouter } from "next/navigation";
 const routes = [
   { path: "/", text: "Home", icon: <HomeIcon /> },
   { path: "/profile", text: "Profile", icon: <Person4Icon /> },
   { path: "/quiz_game", text: "Quiz Game", icon: <QuizIcon /> },
 ];
 
+
 export function RoutesPage() {
+
+  const router = useRouter();
+  const logOut = () => {
+    localStorage.clear();
+     router.push("/login");
+     console.log("logout")
+  
+  }
   return (
     <Box>
       <List>
@@ -37,11 +46,11 @@ export function RoutesPage() {
 
       <List>
         <ListItem disablePadding sx={{ display: "block", marginTop: "300px" }}>
-          <ListItemButton>
+          <ListItemButton onClick={logOut}>
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>
-            <ListItemText>LogOut</ListItemText>
+            <ListItemText >LogOut</ListItemText>
           </ListItemButton>
         </ListItem>
       </List>

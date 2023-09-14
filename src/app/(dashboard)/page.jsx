@@ -1,5 +1,15 @@
 "use client";
-
+import React from "react";
+import { useAuthContext } from "../context/auth/AuthProvider";
 export default function Home() {
-  return <h1 style={{ paddingTop: "64px" }}>user name page</h1>;
+  const {accountUser} = useAuthContext();
+  const showUserName = () => {
+    if (accountUser !== null) {
+      return <h1>{accountUser.userName}</h1>;
+    } else {
+      return null;
+    }
+  };
+
+  return <div style={{ paddingTop: "64px" }}>{showUserName()}</div>;
 }

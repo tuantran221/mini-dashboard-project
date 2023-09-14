@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -7,8 +8,15 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-
+import { useAuthContext } from "../context/auth/AuthProvider";
 export default function Page() {
+  const {accountUser} = useAuthContext();
+  // const accountUser = {
+  //   userName: "trieutuan22012001@gmail.com",
+  //   passWord: "123456",
+  // };
+  const router = useRouter();
+
   const usernameRef = useRef("");
   const passwordRef = useRef("");
 
@@ -55,11 +63,18 @@ export default function Page() {
     e.preventDefault();
 
     if (validateForm()) {
-      // Form is valid, you can submit the data or perform other actions here
-      console.log("Form data:", {
-        username: usernameRef.current,
-        password: passwordRef.current,
-      });
+      if (
+        usernameRef.current === accountUser.userName &&
+        passwordRef.current === accountUser.passWord
+      ) {
+        router.push("/");
+        const key = "token";
+        const value = {
+          userName: usernameRef.current,
+          passWord: passwordRef.current,
+        };
+        localStorage.setItem(key, JSON.stringify(value));
+      }
     }
   };
   return (
