@@ -1,15 +1,27 @@
 "use client";
 import React from "react";
-import { useAuthContext } from "../context/auth/AuthProvider";
+import Button from "@mui/material/Button";
+import { useThemeContext } from "../context/theme/ThemeProvider";
 export default function Home() {
-  const {accountUser} = useAuthContext();
-  const showUserName = () => {
-    if (accountUser !== null) {
-      return <h1>{accountUser.userName}</h1>;
-    } else {
-      return null;
-    }
-  };
+  const { isDarkMode, toggleTheme } = useThemeContext();
 
-  return <div >{showUserName()}</div>;
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center", 
+        alignItems: "center", 
+        height: "100%",
+      }}
+    >
+      <Button
+        variant="contained"
+        sx={{ ml: 1 }}
+        color="inherit"
+        onClick={toggleTheme}
+      >
+        Toggle theme {isDarkMode ? "To Light" : "To Dark"}
+      </Button>
+    </div>
+  );
 }
