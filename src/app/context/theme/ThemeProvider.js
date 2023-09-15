@@ -12,10 +12,12 @@ export function useThemeContext() {
 export function ThemeProvider({ children }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  // handle function light/dark mode
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => !prevMode);
   };
-
+  
+  // create type of theme
   const theme = createTheme({
     palette: {
       mode: isDarkMode ? "dark" : "light",

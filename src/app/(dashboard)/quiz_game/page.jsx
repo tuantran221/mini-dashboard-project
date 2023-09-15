@@ -110,7 +110,6 @@ export default function QuizGame() {
             {choices.map((answer, index) => (
               <ListItem key={answer}>
                 <Button
-                  
                   onClick={() => onCheckError(answer, index)}
                   style={{
                     textTransform: "none",
@@ -130,7 +129,11 @@ export default function QuizGame() {
                   disabled={countdown === 0 || selectedAnswer === true}
                 >
                   <ListItemText
-                    sx={{ display: "flex", textAlign: "start", color: "inherit"}}
+                    sx={{
+                      display: "flex",
+                      textAlign: "start",
+                      color: "inherit",
+                    }}
                   >
                     {answer}
                   </ListItemText>

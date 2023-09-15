@@ -53,6 +53,8 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
+
+
 export function SideBar({ open, handleDrawerClose }) {
   const theme = useTheme();
 

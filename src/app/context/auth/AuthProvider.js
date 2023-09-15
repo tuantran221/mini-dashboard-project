@@ -9,16 +9,16 @@ export function useAuthContext() {
 }
 export function AuthProvider({ children }) {
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const [openSnack, setOpenSnack] = useState(false)
+  const [openSnack, setOpenSnack] = useState(false);
 
+  // hard account for login dashboard
   const accountUser = {
     userName: "trieutuan22012001@gmail.com",
     passWord: "123456",
   };
 
+  // handle login to dashboar
   const login = (username, password) => {
-    setUser(username);
     if (
       username === accountUser.userName &&
       password === accountUser.passWord
@@ -30,21 +30,25 @@ export function AuthProvider({ children }) {
         passWord: password,
       };
       localStorage.setItem(key, JSON.stringify(value));
-      setOpenSnack(false)
-    }else{
-      setOpenSnack(true)
+      setOpenSnack(false);
+    } else {
+      setOpenSnack(true);
     }
   };
-
+  // handle logOut dashboard
   const logOut = () => {
-    localStorage.clear();
+    localStorage.removeItem("token");
     router.push("/login");
   };
+  // handle clode snackbar
   const handleCloseSnackBar = () => {
     setOpenSnack(false);
   };
+
   return (
-    <AuthContext.Provider value={{ user,openSnack, login, logOut,handleCloseSnackBar }}>
+    <AuthContext.Provider
+      value={{ openSnack, login, logOut, handleCloseSnackBar }}
+    >
       {children}
     </AuthContext.Provider>
   );

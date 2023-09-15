@@ -8,8 +8,10 @@ import { useRouter } from "next/navigation";
 import { ThemeProvider } from "../context/theme/ThemeProvider";
 
 export default function DashboardLayout({ children }) {
-  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const router = useRouter(); //using useRouter to route page
 
+  // check if the user is logged in or not
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("token")) === null) {
       router.push("/login");
@@ -21,8 +23,7 @@ export default function DashboardLayout({ children }) {
     }
   });
 
-  const [open, setOpen] = useState(false);
-
+  // handle open and close SideBar
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -30,6 +31,7 @@ export default function DashboardLayout({ children }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
   return (
     <ThemeProvider>
       <Box sx={{ display: "flex" }}>
