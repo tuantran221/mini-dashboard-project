@@ -1,6 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
 import Typography from "@mui/material/Typography";
+import { useState, useEffect } from "react";
 
 export default function Profile() {
   const [userName, setUserName] = useState("");

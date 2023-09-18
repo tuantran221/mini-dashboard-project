@@ -9,11 +9,13 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { useAuthContext } from "../context/auth/AuthProvider";
+import { useRouter } from "next/navigation";
 
+import { useAuthContext } from "../context/auth/AuthProvider";
 export default function Page() {
-  const { login, openSnack, handleCloseSnackBar } = useAuthContext(); 
-  
+  const { auth } = useAuthContext();
+  const [openSnack, setOpenSnack] = useState(false);
+  const router = useRouter();
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -61,15 +63,30 @@ export default function Page() {
       passwordRef.current = value;
     }
   };
-  
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
-      login(usernameRef.current, passwordRef.current);
+     
+      const { result} = await auth.Login(
+        usernameRef.current,
+        passwordRef.current
+      );
+      if (result === null) {
+        console.log("password incorrect");
+        setOpenSnack(true)
+      } else {
+        // else successful
+        console.log("account",result.user.email);
+        return router.push("/");
+      }
     }
   };
-
+  // handle clode snackbar
+  const handleCloseSnackBar = () => {
+    setOpenSnack(false);
+  };
   // ------------------------- View ------------------------
 
   return (

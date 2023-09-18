@@ -19,7 +19,7 @@ const routes = [
 ];
 
 export function RoutesPage() {
-  const { logOut } = useAuthContext();
+  const { auth } = useAuthContext();
 
   return (
     <Box>
@@ -40,8 +40,8 @@ export function RoutesPage() {
 
       <List>
         <ListItem disablePadding sx={{ display: "block", marginTop: "300px" }}>
-          <ListItemButton onClick={logOut}>
-            <ListItemIcon>
+          <ListItemButton>
+            <ListItemIcon onClick={auth.logOut}>
               <LogoutIcon />
             </ListItemIcon>
             <ListItemText>LogOut</ListItemText>
