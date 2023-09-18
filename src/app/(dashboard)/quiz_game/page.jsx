@@ -57,8 +57,7 @@ export default function QuizGame() {
 
   // --------- store data questions -----------
   const { questions } = quiz;
-  const { question, choices, correctAnswer, numberQuestion } =
-    questions[activeQuestion];
+  const { question, choices, correctAnswer, numberQuestion } = questions[activeQuestion];
 
   // ---------- handle function ------
   const onClickNext = () => {

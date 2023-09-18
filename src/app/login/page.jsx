@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -62,6 +61,7 @@ export default function Page() {
       passwordRef.current = value;
     }
   };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 
