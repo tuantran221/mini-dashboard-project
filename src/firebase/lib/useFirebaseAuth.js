@@ -1,9 +1,11 @@
-import{ useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import firebase_app from "../config";
 import { useRouter } from "next/navigation";
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   getAuth,
 } from "firebase/auth";
 
@@ -39,7 +41,7 @@ export default function useFirebaseAuth() {
       };
       localStorage.setItem(key, JSON.stringify(value));
 
-      console.log("login",authUser);
+      console.log("login", authUser);
     } catch (e) {
       error = e;
     }
@@ -51,10 +53,39 @@ export default function useFirebaseAuth() {
     router.push("/login");
     localStorage.removeItem("token");
   };
+  // function signUp
+  const signUp = async (email, password) => {
+    let result = null,
+      error = null;
+    try {
+      result = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("sign up");
+    } catch (e) {
+      error = e;
+    }
+
+    return { result, error };
+  };
+  // reset password
+  const resetPassWord = async(email) =>{
+    let result = null,
+    error = null;
+  try {
+    result = await sendPasswordResetEmail(auth, email);
+    console.log("reset pass");
+  } catch (e) {
+    error = e;
+  }
+
+  return { result, error };
+  }
+
   return {
     authUser,
     loading,
     Login,
     logOut,
+    signUp,
+    resetPassWord
   };
 }

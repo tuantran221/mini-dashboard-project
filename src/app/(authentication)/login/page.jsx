@@ -7,11 +7,13 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useRouter } from "next/navigation";
 
-import { useAuthContext } from "../context/auth/AuthProvider";
+import { useAuthContext } from "@/app/context/auth/AuthProvider";
 export default function Page() {
   const { auth } = useAuthContext();
   const [openSnack, setOpenSnack] = useState(false);
@@ -93,10 +95,12 @@ export default function Page() {
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 12,
+          
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          justifyContent: "center",
+          height: "100vh"
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -141,6 +145,18 @@ export default function Page() {
           >
             Sign In
           </Button>
+          <Grid container>
+              <Grid item xs>
+                <Link href="/reset" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/signup" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
         </Box>
       </Box>
       <Snackbar
