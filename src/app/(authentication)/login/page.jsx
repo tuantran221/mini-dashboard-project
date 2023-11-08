@@ -7,13 +7,17 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { useAuthContext } from "../context/auth/AuthProvider";
+import { useRouter } from "next/navigation";
 
+import { useAuthContext } from "@/app/context/auth/AuthProvider";
 export default function Page() {
-  const { login, openSnack, handleCloseSnackBar } = useAuthContext(); 
-  
+  const { auth } = useAuthContext();
+  const [openSnack, setOpenSnack] = useState(false);
+  const router = useRouter();
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -61,25 +65,42 @@ export default function Page() {
       passwordRef.current = value;
     }
   };
-  
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
-      login(usernameRef.current, passwordRef.current);
+     
+      const { result} = await auth.Login(
+        usernameRef.current,
+        passwordRef.current
+      );
+      if (result === null) {
+        console.log("password incorrect");
+        setOpenSnack(true)
+      } else {
+        // else successful
+        console.log("account",result.user.email);
+        return router.push("/");
+      }
     }
   };
-
+  // handle clode snackbar
+  const handleCloseSnackBar = () => {
+    setOpenSnack(false);
+  };
   // ------------------------- View ------------------------
 
   return (
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 12,
+          
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          justifyContent: "center",
+          height: "100vh"
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -124,6 +145,18 @@ export default function Page() {
           >
             Sign In
           </Button>
+          <Grid container>
+              <Grid item xs>
+                <Link href="/reset" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/signup" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
         </Box>
       </Box>
       <Snackbar

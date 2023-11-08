@@ -1,55 +1,30 @@
 "use client";
-import React, { createContext, useContext, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { createContext, useContext } from "react";
+import useFirebaseAuth from "@/firebase/lib/useFirebaseAuth";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
+export const AuthContext = createContext({ authUser: null, loading: true });
 
-const AuthContext = createContext();
+export const useAuthContext = () => useContext(AuthContext);
 
-export function useAuthContext() {
-  return useContext(AuthContext);
-}
-export function AuthProvider({ children }) {
-  const router = useRouter();
-  const [openSnack, setOpenSnack] = useState(false);
-
-  // hard account for login dashboard
-  const accountUser = {
-    userName: "trieutuan22012001@gmail.com",
-    passWord: "123456",
-  };
-
-  // handle login to dashboar
-  const login = (username, password) => {
-    if (
-      username === accountUser.userName &&
-      password === accountUser.passWord
-    ) {
-      router.push("/");
-      const key = "token";
-      const value = {
-        userName: username,
-        passWord: password,
-      };
-      localStorage.setItem(key, JSON.stringify(value));
-      setOpenSnack(false);
-    } else {
-      setOpenSnack(true);
-    }
-  };
-  // handle logOut dashboard
-  const logOut = () => {
-    localStorage.removeItem("token");
-    router.push("/login");
-  };
-  // handle clode snackbar
-  const handleCloseSnackBar = () => {
-    setOpenSnack(false);
-  };
-
+export const AuthProvider = ({ children }) => {
+  const auth = useFirebaseAuth();
   return (
-    <AuthContext.Provider
-      value={{ openSnack, login, logOut, handleCloseSnackBar }}
-    >
-      {children}
+    <AuthContext.Provider value={{ auth }}>
+      {auth.loading ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+          }}
+        >
+          <LoadingSpinner />
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
-}
+};
